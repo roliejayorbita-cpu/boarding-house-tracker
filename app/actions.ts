@@ -266,3 +266,60 @@ export async function verifyPayment(formData: FormData) {
 
   revalidatePath("/");
 }
+
+export async function submitBulkPayment(formData: FormData) {
+  const supabase = await createClient();
+
+  const itemsJson = formData.get("items") as string;
+  const method = formData.get("method") as string;
+  const file = formData.get("proof") as File | null;
+
+  // (Removed refNo retrieval here)
+
+  if (!itemsJson) return;
+
+  const items = JSON.parse(itemsJson);
+  let proofUrl = null;
+
+  // 1. Handle File Upload
+  if (method === "GCASH" && file && file.size > 0) {
+    const { data: userData } = await supabase.auth.getUser();
+    const filename = `${userData.user?.id}-${Date.now()}`;
+
+    const { error: uploadError } = await supabase.storage
+      .from("receipts")
+      .upload(filename, file);
+
+    if (!uploadError) {
+      const { data } = supabase.storage.from("receipts").getPublicUrl(filename);
+      proofUrl = data.publicUrl;
+    }
+  }
+
+  // 2. Loop through every selected item and update it
+  for (const item of items) {
+    const statusCol = `status_${item.type}`;
+
+    // Prepare updates
+    const updates: any = {
+      [statusCol]: "PENDING",
+    };
+
+    // Only save proof if it's GCash
+    // (Removed payment_ref_no update here)
+    if (method === "GCASH" && proofUrl) {
+      // We dynamically find the correct column based on item type
+      // e.g., if item.type is 'rent', this becomes updates.proof_rent = url
+      const proofCol = `proof_${item.type}`;
+      updates[proofCol] = proofUrl;
+    }
+
+    await supabase
+      .from("individual_bills")
+      .update(updates)
+      .eq("id", item.billId);
+  }
+
+  revalidatePath("/my-bill");
+  revalidatePath("/");
+}

@@ -108,6 +108,7 @@ export default async function Dashboard() {
                       label="Rent"
                       amount={bill.amount_rent}
                       status={bill.status_rent}
+                      proofUrl={bill.proof_rent}
                       type="rent"
                       billId={bill.id}
                     />
@@ -115,6 +116,7 @@ export default async function Dashboard() {
                       label="Internet"
                       amount={bill.amount_internet}
                       status={bill.status_internet}
+                      proofUrl={bill.proof_internet}
                       type="internet"
                       billId={bill.id}
                     />
@@ -122,6 +124,7 @@ export default async function Dashboard() {
                       label="Electricity"
                       amount={bill.amount_electricity}
                       status={bill.status_electricity}
+                      proofUrl={bill.proof_electricity}
                       type="electricity"
                       billId={bill.id}
                     />
@@ -129,6 +132,7 @@ export default async function Dashboard() {
                       label="Water"
                       amount={bill.amount_water}
                       status={bill.status_water}
+                      proofUrl={bill.proof_water} // <--- Pass this
                       type="water"
                       billId={bill.id}
                     />
@@ -338,7 +342,7 @@ export default async function Dashboard() {
 }
 
 // --- SUB-COMPONENT FOR CLEAN LOGIC ---
-function ApprovalItem({ label, amount, status, type, billId }: any) {
+function ApprovalItem({ label, amount, status, type, billId, proofUrl }: any) {
   if (status !== "PENDING") return null;
 
   return (
@@ -346,9 +350,22 @@ function ApprovalItem({ label, amount, status, type, billId }: any) {
       <div className="flex items-center gap-3">
         <span className="font-semibold text-gray-700">{label}</span>
         <span className="text-sm text-gray-500">{formatCurrency(amount)}</span>
-        <span className="text-xs text-blue-600 font-medium bg-blue-50 px-2 py-0.5 rounded">
-          Via GCash/Cash
-        </span>
+
+        {/* VIEW RECEIPT BUTTON */}
+        {proofUrl ? (
+          <a
+            href={proofUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded font-bold hover:bg-blue-200 underline"
+          >
+            View Receipt
+          </a>
+        ) : (
+          <span className="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded">
+            Cash / No Img
+          </span>
+        )}
       </div>
 
       <div className="flex gap-2">

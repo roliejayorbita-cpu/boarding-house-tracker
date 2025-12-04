@@ -323,3 +323,21 @@ export async function submitBulkPayment(formData: FormData) {
   revalidatePath("/my-bill");
   revalidatePath("/");
 }
+
+export async function updateBillStatus(formData: FormData) {
+  const supabase = await createClient();
+
+  const billId = formData.get("billId") as string;
+  const itemType = formData.get("itemType") as string;
+  const newStatus = formData.get("newStatus") as string;
+
+  const statusCol = `status_${itemType}`;
+
+  await supabase
+    .from("individual_bills")
+    .update({ [statusCol]: newStatus })
+    .eq("id", billId);
+
+  revalidatePath("/manage-bills");
+  revalidatePath("/");
+}

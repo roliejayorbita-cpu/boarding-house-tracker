@@ -49,7 +49,7 @@ export default async function MyBillPage() {
 
         {/* GRAND TOTAL HEADER */}
         {/* We keep the blue gradient because it looks good in both modes, but added a dark shadow */}
-        <div className="bg-gradient-to-r from-blue-900 to-blue-700 text-white p-6 rounded-2xl shadow-xl dark:shadow-blue-900/20">
+        <div className="bg-linear-to-r from-blue-900 to-blue-700 text-white p-6 rounded-2xl shadow-xl dark:shadow-blue-900/20">
           <p className="text-blue-200 text-sm mb-1 uppercase tracking-wider">
             Total Pending Due
           </p>

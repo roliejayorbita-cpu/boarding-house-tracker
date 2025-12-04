@@ -2,6 +2,8 @@ import { createClient } from "@/utils/supabase/server";
 import { createBillingCycle, verifyPayment } from "./actions";
 import { redirect } from "next/navigation";
 import { CheckCircle, XCircle, Clock } from "lucide-react";
+import Link from "next/link";
+import { Settings } from "lucide-react";
 
 // --- HELPER FUNCTIONS ---
 const formatCurrency = (amount: number) => {
@@ -71,6 +73,17 @@ export default async function Dashboard() {
             <span className="text-sm text-gray-500 dark:text-gray-400">
               {user.email}
             </span>
+          </div>
+
+          <div className="flex gap-3">
+            {/* NEW BUTTON */}
+            <Link
+              href="/manage-bills"
+              className="flex items-center gap-2 bg-gray-800 dark:bg-gray-700 text-white px-4 py-2 rounded-lg hover:bg-gray-900 dark:hover:bg-gray-600 transition"
+            >
+              <Settings size={18} />
+              Manage All
+            </Link>
           </div>
         </div>
 

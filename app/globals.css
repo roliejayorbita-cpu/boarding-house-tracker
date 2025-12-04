@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@tailwind components;
+@tailwind utilities;
 
 :root {
   --background: #ffffff;
@@ -12,10 +14,11 @@
   --font-mono: var(--font-geist-mono);
 }
 
+/* Add this to handle the main background transition */
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  body {
+    background-color: #111827; /* gray-900 */
+    color: #f3f4f6; /* gray-100 */
   }
 }
 

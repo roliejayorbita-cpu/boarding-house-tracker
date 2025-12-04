@@ -60,24 +60,26 @@ export default async function Dashboard() {
     .order("created_at", { ascending: true });
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-6">
       <div className="max-w-5xl mx-auto space-y-8">
         {/* Header */}
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
               Admin Dashboard
             </h1>
-            <span className="text-sm text-gray-500">{user.email}</span>
+            <span className="text-sm text-gray-500 dark:text-gray-400">
+              {user.email}
+            </span>
           </div>
         </div>
 
         {/* --- SECTION A: PAYMENT APPROVAL QUEUE --- */}
         {pendingBills && pendingBills.length > 0 && (
-          <div className="bg-white p-6 rounded-xl shadow-lg border-2 border-yellow-400">
+          <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg border-2 border-yellow-400 dark:border-yellow-600">
             <div className="flex items-center gap-2 mb-4">
-              <Clock className="text-yellow-600" />
-              <h2 className="text-xl font-bold text-gray-800">
+              <Clock className="text-yellow-600 dark:text-yellow-500" />
+              <h2 className="text-xl font-bold text-gray-800 dark:text-white">
                 Pending Approvals ({pendingBills.length})
               </h2>
             </div>
@@ -86,15 +88,15 @@ export default async function Dashboard() {
               {pendingBills.map((bill) => (
                 <div
                   key={bill.id}
-                  className="bg-yellow-50 p-4 rounded-lg border border-yellow-200"
+                  className="bg-yellow-50 dark:bg-gray-700/50 p-4 rounded-lg border border-yellow-200 dark:border-yellow-900/50"
                 >
                   <div className="flex justify-between items-start mb-3">
                     <div>
-                      <p className="font-bold text-gray-900">
+                      <p className="font-bold text-gray-900 dark:text-gray-100">
                         {bill.profiles?.full_name} ({bill.profiles?.room_number}
                         )
                       </p>
-                      <p className="text-sm text-gray-600">
+                      <p className="text-sm text-gray-600 dark:text-gray-300">
                         {bill.billing_cycles?.month_name}
                       </p>
                     </div>
@@ -132,7 +134,7 @@ export default async function Dashboard() {
                       label="Water"
                       amount={bill.amount_water}
                       status={bill.status_water}
-                      proofUrl={bill.proof_water} // <--- Pass this
+                      proofUrl={bill.proof_water}
                       type="water"
                       billId={bill.id}
                     />
@@ -144,24 +146,24 @@ export default async function Dashboard() {
         )}
 
         {/* --- SECTION B: CREATE / UPDATE BILL FORM --- */}
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-          <h2 className="text-xl font-semibold mb-4 text-gray-800">
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+          <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-white">
             Create / Update Monthly Bill
           </h2>
 
           <form action={createBillingCycle} className="space-y-6">
             {/* Month Picker */}
             <div>
-              <label className="block text-sm font-medium text-gray-700">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                 Select Month
               </label>
               <input
                 name="monthKey"
                 type="month"
                 required
-                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
+                className="mt-1 block w-full rounded-md border border-gray-300 dark:border-gray-600 px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
               />
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                 Select an existing month to update it, or a new month to create
                 it.
               </p>
@@ -170,30 +172,30 @@ export default async function Dashboard() {
             {/* Expenses Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* RENT */}
-              <div className="p-4 bg-gray-50 rounded-lg border border-gray-100">
-                <h3 className="font-semibold text-gray-700 mb-2">
+              <div className="p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg border border-gray-100 dark:border-gray-600">
+                <h3 className="font-semibold text-gray-700 dark:text-gray-200 mb-2">
                   🏠 Rent (Fixed ₱5k)
                 </h3>
-                <label className="block text-xs font-medium text-gray-500 mb-1">
+                <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">
                   Rent Due Date
                 </label>
                 <input
                   name="rentDeadline"
                   type="date"
-                  className="block w-full rounded-md border border-gray-300 px-3 py-1.5 text-sm"
+                  className="block w-full rounded-md border border-gray-300 dark:border-gray-600 px-3 py-1.5 text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                 />
               </div>
 
               {/* INTERNET */}
-              <div className="p-4 bg-gray-50 rounded-lg border border-gray-100 opacity-70">
-                <h3 className="font-semibold text-gray-700 mb-2">
+              <div className="p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg border border-gray-100 dark:border-gray-600 opacity-70">
+                <h3 className="font-semibold text-gray-700 dark:text-gray-200 mb-2">
                   🌐 Internet (Fixed)
                 </h3>
                 <input
                   type="text"
                   value="₱2,220.00"
                   disabled
-                  className="block w-full bg-gray-100 border-gray-300 rounded text-sm px-3 py-1.5 text-gray-500"
+                  className="block w-full bg-gray-100 dark:bg-gray-800 border-gray-300 dark:border-gray-600 rounded text-sm px-3 py-1.5 text-gray-500 dark:text-gray-400"
                 />
                 <p className="text-xs text-gray-400 mt-1">
                   Due Date: Always 17th
@@ -201,58 +203,60 @@ export default async function Dashboard() {
               </div>
 
               {/* ELECTRICITY */}
-              <div className="p-4 bg-gray-50 rounded-lg border border-gray-100">
-                <h3 className="font-semibold text-gray-700 mb-2">
+              <div className="p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg border border-gray-100 dark:border-gray-600">
+                <h3 className="font-semibold text-gray-700 dark:text-gray-200 mb-2">
                   ⚡ Electricity
                 </h3>
                 <div className="space-y-3">
                   <div>
-                    <label className="block text-xs font-medium text-gray-500">
+                    <label className="block text-xs font-medium text-gray-500 dark:text-gray-400">
                       Total Bill (₱)
                     </label>
                     <input
                       name="electricity"
                       type="number"
                       step="0.01"
-                      className="block w-full rounded-md border border-gray-300 px-3 py-1.5 text-sm"
+                      className="block w-full rounded-md border border-gray-300 dark:border-gray-600 px-3 py-1.5 text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-medium text-gray-500">
+                    <label className="block text-xs font-medium text-gray-500 dark:text-gray-400">
                       Due Date
                     </label>
                     <input
                       name="elecDeadline"
                       type="date"
-                      className="block w-full rounded-md border border-gray-300 px-3 py-1.5 text-sm"
+                      className="block w-full rounded-md border border-gray-300 dark:border-gray-600 px-3 py-1.5 text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                     />
                   </div>
                 </div>
               </div>
 
               {/* WATER */}
-              <div className="p-4 bg-gray-50 rounded-lg border border-gray-100">
-                <h3 className="font-semibold text-gray-700 mb-2">💧 Water</h3>
+              <div className="p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg border border-gray-100 dark:border-gray-600">
+                <h3 className="font-semibold text-gray-700 dark:text-gray-200 mb-2">
+                  💧 Water
+                </h3>
                 <div className="space-y-3">
                   <div>
-                    <label className="block text-xs font-medium text-gray-500">
+                    <label className="block text-xs font-medium text-gray-500 dark:text-gray-400">
                       Total Bill (₱)
                     </label>
                     <input
                       name="water"
                       type="number"
                       step="0.01"
-                      className="block w-full rounded-md border border-gray-300 px-3 py-1.5 text-sm"
+                      className="block w-full rounded-md border border-gray-300 dark:border-gray-600 px-3 py-1.5 text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-medium text-gray-500">
+                    <label className="block text-xs font-medium text-gray-500 dark:text-gray-400">
                       Due Date
                     </label>
                     <input
                       name="waterDeadline"
                       type="date"
-                      className="block w-full rounded-md border border-gray-300 px-3 py-1.5 text-sm"
+                      className="block w-full rounded-md border border-gray-300 dark:border-gray-600 px-3 py-1.5 text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                     />
                   </div>
                 </div>
@@ -262,7 +266,7 @@ export default async function Dashboard() {
             <div className="pt-2">
               <button
                 type="submit"
-                className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 font-bold shadow-sm transition-all"
+                className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 font-bold shadow-sm transition-all dark:bg-blue-700 dark:hover:bg-blue-600"
               >
                 Publish / Update Bill
               </button>
@@ -272,63 +276,65 @@ export default async function Dashboard() {
 
         {/* --- SECTION C: HISTORY --- */}
         <div className="space-y-4">
-          <h2 className="text-xl font-semibold text-gray-800">
+          <h2 className="text-xl font-semibold text-gray-800 dark:text-white">
             Billing History
           </h2>
           {history?.map((cycle) => (
             <div
               key={cycle.id}
-              className="bg-white p-6 rounded-xl shadow-sm border border-gray-200"
+              className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700"
             >
               <div className="flex justify-between items-start mb-4">
-                <h3 className="font-bold text-xl text-gray-900">
+                <h3 className="font-bold text-xl text-gray-900 dark:text-white">
                   {cycle.month_name}
                 </h3>
-                <span className="px-3 py-1 text-xs font-bold text-green-700 bg-green-100 rounded-full">
+                <span className="px-3 py-1 text-xs font-bold text-green-700 bg-green-100 dark:bg-green-900 dark:text-green-300 rounded-full">
                   PUBLISHED
                 </span>
               </div>
 
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-                <div className="bg-orange-50 p-3 rounded-lg border border-orange-100">
-                  <span className="block text-orange-800 font-semibold mb-1">
+                <div className="bg-orange-50 dark:bg-orange-900/30 p-3 rounded-lg border border-orange-100 dark:border-orange-800">
+                  <span className="block text-orange-800 dark:text-orange-300 font-semibold mb-1">
                     🏠 Rent
                   </span>
-                  <div className="text-gray-600">₱625.00</div>
-                  <div className="text-xs text-orange-600 font-medium mt-1">
+                  <div className="text-gray-600 dark:text-gray-300">
+                    ₱625.00
+                  </div>
+                  <div className="text-xs text-orange-600 dark:text-orange-400 font-medium mt-1">
                     Due: {formatDate(cycle.deadline_rent)}
                   </div>
                 </div>
-                <div className="bg-yellow-50 p-3 rounded-lg border border-yellow-100">
-                  <span className="block text-yellow-800 font-semibold mb-1">
+                <div className="bg-yellow-50 dark:bg-yellow-900/30 p-3 rounded-lg border border-yellow-100 dark:border-yellow-800">
+                  <span className="block text-yellow-800 dark:text-yellow-300 font-semibold mb-1">
                     ⚡ Elec
                   </span>
-                  <div className="text-gray-600">
+                  <div className="text-gray-600 dark:text-gray-300">
                     {formatCurrency(cycle.total_electricity / 8)}
                   </div>
-                  <div className="text-xs text-yellow-600 font-medium mt-1">
+                  <div className="text-xs text-yellow-600 dark:text-yellow-400 font-medium mt-1">
                     Due: {formatDate(cycle.deadline_electricity)}
                   </div>
                 </div>
-                <div className="bg-blue-50 p-3 rounded-lg border border-blue-100">
-                  <span className="block text-blue-800 font-semibold mb-1">
+                <div className="bg-blue-50 dark:bg-blue-900/30 p-3 rounded-lg border border-blue-100 dark:border-blue-800">
+                  <span className="block text-blue-800 dark:text-blue-300 font-semibold mb-1">
                     💧 Water
                   </span>
-                  <div className="text-gray-600">
+                  <div className="text-gray-600 dark:text-gray-300">
                     {formatCurrency(cycle.total_water / 8)}
                   </div>
-                  <div className="text-xs text-blue-600 font-medium mt-1">
+                  <div className="text-xs text-blue-600 dark:text-blue-400 font-medium mt-1">
                     Due: {formatDate(cycle.deadline_water)}
                   </div>
                 </div>
-                <div className="bg-indigo-50 p-3 rounded-lg border border-indigo-100">
-                  <span className="block text-indigo-800 font-semibold mb-1">
+                <div className="bg-indigo-50 dark:bg-indigo-900/30 p-3 rounded-lg border border-indigo-100 dark:border-indigo-800">
+                  <span className="block text-indigo-800 dark:text-indigo-300 font-semibold mb-1">
                     🌐 Net
                   </span>
-                  <div className="text-gray-600">
+                  <div className="text-gray-600 dark:text-gray-300">
                     {formatCurrency(cycle.total_internet / 12)}
                   </div>
-                  <div className="text-xs text-indigo-600 font-medium mt-1">
+                  <div className="text-xs text-indigo-600 dark:text-indigo-400 font-medium mt-1">
                     Due: {formatDate(cycle.deadline_internet)}
                   </div>
                 </div>
@@ -346,10 +352,14 @@ function ApprovalItem({ label, amount, status, type, billId, proofUrl }: any) {
   if (status !== "PENDING") return null;
 
   return (
-    <div className="flex justify-between items-center bg-white p-3 rounded shadow-sm">
+    <div className="flex justify-between items-center bg-white dark:bg-gray-800 p-3 rounded shadow-sm">
       <div className="flex items-center gap-3">
-        <span className="font-semibold text-gray-700">{label}</span>
-        <span className="text-sm text-gray-500">{formatCurrency(amount)}</span>
+        <span className="font-semibold text-gray-700 dark:text-gray-200">
+          {label}
+        </span>
+        <span className="text-sm text-gray-500 dark:text-gray-400">
+          {formatCurrency(amount)}
+        </span>
 
         {/* VIEW RECEIPT BUTTON */}
         {proofUrl ? (
@@ -357,12 +367,12 @@ function ApprovalItem({ label, amount, status, type, billId, proofUrl }: any) {
             href={proofUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded font-bold hover:bg-blue-200 underline"
+            className="text-xs bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 px-2 py-0.5 rounded font-bold hover:bg-blue-200 dark:hover:bg-blue-800 underline"
           >
             View Receipt
           </a>
         ) : (
-          <span className="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded">
+          <span className="text-xs bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 px-2 py-0.5 rounded">
             Cash / No Img
           </span>
         )}
@@ -375,7 +385,7 @@ function ApprovalItem({ label, amount, status, type, billId, proofUrl }: any) {
           <input type="hidden" name="decision" value="APPROVE" />
           <button
             type="submit"
-            className="p-2 bg-green-100 text-green-700 rounded hover:bg-green-200"
+            className="p-2 bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 rounded hover:bg-green-200 dark:hover:bg-green-800"
             title="Approve"
           >
             <CheckCircle size={18} />
@@ -388,7 +398,7 @@ function ApprovalItem({ label, amount, status, type, billId, proofUrl }: any) {
           <input type="hidden" name="decision" value="REJECT" />
           <button
             type="submit"
-            className="p-2 bg-red-100 text-red-700 rounded hover:bg-red-200"
+            className="p-2 bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-300 rounded hover:bg-red-200 dark:hover:bg-red-800"
             title="Reject"
           >
             <XCircle size={18} />
